@@ -725,6 +725,7 @@ MonoBehaviour:
   BlockFullPrefab: {fileID: 1072269335464650008, guid: 8018e754a44421c48b64154553f6e3a8, type: 3}
   RampPrefab: {fileID: 2943820706393743255, guid: 2ea70e7f5b53a9c4d92e43aa77783cd7, type: 3}
   maps: []
+  activeMaps: []
 --- !u!4 &950929861
 Transform:
   m_ObjectHideFlags: 0
@@ -843,7 +844,7 @@ GameObject:
   - component: {fileID: 975131969}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1345,7 +1346,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh23334
+  m_Name: pb_Mesh23338
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

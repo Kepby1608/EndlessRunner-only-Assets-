@@ -7,29 +7,28 @@ using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
-    public float forceValue;
     Vector3 startGamePosition;
     float laneOffset;
-    public float laneChangeSpeed = 15;
     float pointStart;
     float pointFinish;
     float lastVectorX;
-    bool isMoving = false;
-    Coroutine movingCoroutine;
-    Rigidbody rb;
-    bool isJumping = false;
     float jumpPower = 15;
     float jumpGravity = -40;
     float realGravity = -9.8f;
+    public float forceValue;
+    public float laneChangeSpeed = 15;
+    public bool isMoving = false;
+    public bool isJumping = false;
+    Coroutine movingCoroutine;
+    Rigidbody rb;
 
     void Start()
     {
-        laneOffset = MapGenerator.Instance.laneOffset;
+        laneOffset = MapGenerator.instance.laneOffset;
         Physics.gravity = new Vector3(0, -20, 0);
         startGamePosition = transform.position;
         rb = GetComponent<Rigidbody>();
         SwipeManager.instance.MoveEvent += MovePlayer;
-        //SwipeManager.SwipeEvent += OnSwipe;
     }
 
     public void StartLevel()

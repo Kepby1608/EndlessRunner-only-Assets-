@@ -74,5 +74,6 @@ public class RoadGenerator : MonoBehaviour
         }
 
         SwipeManager.instance.enabled = false;
+        MapGenerator.instance.ResetMaps();
     }
 }
