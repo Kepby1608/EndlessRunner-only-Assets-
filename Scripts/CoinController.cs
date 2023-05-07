@@ -14,14 +14,23 @@ public class CoinController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
+        transform.parent.Rotate(0, 0, rotationSpeed * Time.deltaTime);
     }
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
-            transform.parent.gameObject.SetActive(false);
+            transform.parent.parent.gameObject.SetActive(false);
         }
     }
+    /*
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            transform.parent.parent.gameObject.SetActive(false);
+        }
+    }
+    */
 }

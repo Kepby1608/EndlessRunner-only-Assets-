@@ -356,10 +356,10 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2548829774585178957}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!1 &2943820706393743255
@@ -753,10 +753,10 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6752498187728136766}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!1 &6782771882405115140
@@ -773,7 +773,7 @@ GameObject:
   - component: {fileID: 1829141807003525415}
   - component: {fileID: 7996857941910052454}
   - component: {fileID: 6326859516279335798}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Ramp
   m_Icon: {fileID: 0}
@@ -1141,7 +1141,7 @@ GameObject:
   - component: {fileID: 8730837641814605816}
   - component: {fileID: 8730837641814605823}
   - component: {fileID: 8730837641814605822}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PolyShape
   m_TagString: RampPlane
   m_Icon: {fileID: 0}
