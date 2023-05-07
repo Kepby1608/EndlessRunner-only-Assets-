@@ -12,20 +12,20 @@ public class PlayerController : MonoBehaviour
     float pointStart;
     float pointFinish;
     float lastVectorX;
+    float velocity;
     public float jumpPower = 15;
+    public float jumpForce;
     public float jumpGravity = -40f;
     public float realGravity = -9.81f;
     public float forceValue;
     public float laneChangeSpeed = 15;
     public float distanceRay = 0.76f;
-    public bool letsJump = false;
+    public bool tryJump = false;
     public bool isMoving = false;
     public bool isJumping = false;
     public LayerMask layerMask;
     Coroutine movingCoroutine;
     Rigidbody rb;
-    private Vector3 direction;
-    //Ray ray = new Ray();
 
     void Start()
     {
@@ -59,11 +59,54 @@ public class PlayerController : MonoBehaviour
         if (swipes[(int)SwipeManager.Direction.Right] && pointFinish < laneOffset)
         {
             MoveHorizontal(laneChangeSpeed);
+        } /*
+        if (swipes[(int)SwipeManager.Direction.Up] && tryJump == false) // && rb.velocity.y == 0
+        {
+            tryJump = true;
+        }*/
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            tryJump = true;
         }
-        if (swipes[(int)SwipeManager.Direction.Up] && isJumping == false && rb.velocity.y == 0)
+    }
+
+    private void FixedUpdate()
+    {
+        //velocity += Physics.gravity.y * 5 * Time.deltaTime;
+
+        if (tryJump)
+        {
+            /*
+            velocity = Mathf.Sqrt(30 * -2 * (Physics.gravity.y * 5));
+            transform.Translate(new Vector3(0, velocity, 0) *  Time.deltaTime);
+            tryJump = false;
+            */
+
+            jumpForce = Mathf.Sqrt(3 * Physics.gravity.y * -2) * rb.mass;
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            tryJump = false;
+        }
+    }
+
+
+    bool CheckingJump()
+    {
+        Ray ray = new Ray();
+        ray.origin = transform.position;
+        ray.direction = -transform.up;
+        if (Physics.Raycast(ray, distanceRay, layerMask))
+        {
+            isJumping = false;
+        }
+        else
         {
             isJumping = true;
         }
+        return Physics.Raycast(ray, distanceRay, layerMask);
     }
 
     void MoveHorizontal(float speed)
@@ -99,102 +142,6 @@ public class PlayerController : MonoBehaviour
         }
         isMoving = false;
     }
-
-    private void Update()
-    {
-        //direction = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-        if (isJumping)
-        {
-            letsJump = true;
-        }
-    }
-
-    private void FixedUpdate()
-    {
-
-        if (Physics.CheckSphere(rb.transform.position, 0.1f, layerMask))
-        {
-
-            if (letsJump)
-                rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-
-            //else
-               // rb.velocity = new Vector3(direction.x, 0, direction.z);
-        }
-
-        //else
-           // rb.velocity = new Vector3(direction.x, rb.velocity.y, direction.z);
-    }
-
-    void Jump()
-    {
-        isJumping = true;
-        //rb.velocity = Vector3.ClampMagnitude(rb.AddForce(0, 500, 0), );
-        //rb.AddForce(0, 500, 0);
-        rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-        //Physics.gravity = new Vector3(0, jumpGravity, 0);
-        StartCoroutine(StopJumpCoroutine());
-    }
-
-    IEnumerator StopJumpCoroutine()
-    {
-        /*
-        Debug.Log("Start Check");
-        yield return new WaitUntil(CheckingJump);
-        Debug.Log("Stop Check");
-        isJumping = false;
-        Physics.gravity = new Vector3(0, realGravity, 0);
-        Debug.Log("!!!!!!!!!!!!Jump = " + isJumping);
-        */
-        do
-        {
-            yield return new WaitForSeconds(0.01f);
-        } while (rb.velocity.y != 0);
-        isJumping = false;
-        //Physics.gravity = new Vector3(0, realGravity, 0);
-    }
-
-    /*
-    bool CheckingJump()
-    {
-        Debug.Log("Jump = " + isJumping);
-        return Physics.Raycast(ray, distanceRay, layerMask);
-    }
-
-        /*Ray ray = new Ray(transform.position, -Vector3.up);
-        do
-        {
-            //RaycastHit hit;
-            //if (Physics.Raycast(ray, distanceRay, layerMask))
-            //{
-
-            Debug.DrawRay(ray.origin, ray.direction, Color.yellow);
-            Debug.Log("Jump = " + isJumping);
-            yield return new WaitForSeconds(0.01f);
-            //}
-        } while (!Physics.Raycast(ray, distanceRay, layerMask));
-
-        isJumping = false;
-        Physics.gravity = new Vector3(0, realGravity, 0); 
-    
-     
-    private void FixedUpdate()
-    {
-        ray.origin = transform.position;
-        ray.direction = -transform.up;
-        Debug.DrawRay(ray.origin, ray.direction, Color.yellow);
-        Debug.Log(Physics.gravity);
-        /*
-        Ray ray = new Ray(transform.position, -Vector3.up);
-        Debug.DrawRay(ray.origin, ray.direction, Color.yellow);
-
-        //RaycastHit hit;
-        if (Physics.Raycast(ray, distanceRay, layerMask))
-        {
-            isJumping = false;
-            Debug.Log("Jump = " + isJumping);
-        }
-        */
 
     private void OnTriggerEnter(Collider other)
     {
