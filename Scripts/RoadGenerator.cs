@@ -2,24 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoadGenerator : MonoBehaviour
+public class RoadGenerator : Singleton<RoadGenerator>
 {
     public GameObject roadPrefab;
     public List<GameObject> roads = new List<GameObject>();
     public float maxSpeed = 10;
     public float speed = 0;
     public int maxRoadCount = 5;
-
+    
+    /*
     public static RoadGenerator instance;
     void Awake()
     {
         instance = this;
-    }
+    }*/
 
 
     // Start is called before the first frame update
     void Start()
     {
+        PoolManager.Instance.Preload(roadPrefab, 15);
+
         ResetLevel();
         //StartLevel();
     }
@@ -49,7 +52,7 @@ public class RoadGenerator : MonoBehaviour
         {
             pos = roads[roads.Count - 1].transform.position + new Vector3(0, 0, 15);
         }
-        GameObject go = Instantiate(roadPrefab, pos, Quaternion.identity);
+        GameObject go = PoolManager.Instance.Spawn(roadPrefab, pos, Quaternion.identity);
         go.transform.SetParent(transform);
         roads.Add(go);
     }
@@ -57,6 +60,7 @@ public class RoadGenerator : MonoBehaviour
     public void StartLevel()
     {
         speed = maxSpeed;
+        Time.timeScale = 1;
         SwipeManager.instance.enabled = true;
     }
 
@@ -65,7 +69,7 @@ public class RoadGenerator : MonoBehaviour
         speed = 0;
         while (roads.Count > 0) 
         {
-            Destroy(roads[0]);
+            PoolManager.Instance.Despawn(roads[0]);
             roads.RemoveAt(0);
         }
         for (int i = 0; i < maxRoadCount; i++)
@@ -74,6 +78,6 @@ public class RoadGenerator : MonoBehaviour
         }
 
         SwipeManager.instance.enabled = false;
-        MapGenerator.instance.ResetMaps();
+        MapGenerator.Instance.ResetMaps();
     }
 }

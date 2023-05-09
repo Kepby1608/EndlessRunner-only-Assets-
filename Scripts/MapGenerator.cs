@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapGenerator : MonoBehaviour
+public class MapGenerator : Singleton<MapGenerator>
 {
-    int itemSpace = 15;
+    int itemSpace = 20;
     int itemCountInMap = 5;
-    int coinsCountInItem = 10;
+    int coinsCountInItem = 7;
     int mapSize;
     float coinsHeight = 0.5f;
     public float laneOffset = 2.5f;
@@ -19,11 +19,12 @@ public class MapGenerator : MonoBehaviour
     public GameObject BlockDownPrefab;
     public GameObject BlockFullPrefab;
     public GameObject RampPrefab;
+    public Canvas panel;
 
     public List<GameObject> maps = new List<GameObject>();
     public List<GameObject> activeMaps = new List<GameObject>();
 
-    static public MapGenerator instance;
+    //static public MapGenerator instance;
 
     struct MapItem
     {
@@ -40,11 +41,11 @@ public class MapGenerator : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        //instance = this;
         mapSize = itemCountInMap * itemSpace;
         maps.Add(MakeMap1());
-        maps.Add(MakeMap1());
-        maps.Add(MakeMap1());
+        maps.Add(MakeMap2());
+        maps.Add(MakeMap3());
         foreach (GameObject map in maps)
         {
             map.SetActive(false);
@@ -53,18 +54,18 @@ public class MapGenerator : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     void Update()
     {
-        if (RoadGenerator.instance.speed == 0) return;
+        if (RoadGenerator.Instance.speed == 0) return;
 
         foreach (GameObject map in activeMaps)
         {
-            map.transform.position -= new Vector3(0, 0, RoadGenerator.instance.speed * Time.deltaTime);
+            map.transform.position -= new Vector3(0, 0, RoadGenerator.Instance.speed * Time.deltaTime);
         }
-        if (activeMaps[0].transform.position.x < -mapSize)
+        if (activeMaps[0].transform.position.z < -mapSize)
         {
             RemoveFirstActiveMap();
             AddActiveMap();
@@ -128,6 +129,236 @@ public class MapGenerator : MonoBehaviour
             }
 
             Vector3 blockPos = new Vector3((int) trackPos * laneOffset, 0, i * itemSpace);
+            CreateCoins(coinsStyle, blockPos, result);
+
+            if (block != null)
+            {
+                GameObject go = Instantiate(block, blockPos, Quaternion.identity);
+                go.transform.SetParent(result.transform);
+            }
+        }
+        return result;
+    }
+    GameObject MakeMap2()
+    {
+        GameObject result = new GameObject("Map2");
+        result.transform.SetParent(transform);
+        for (int i = 0; i < itemCountInMap; i++)
+        {
+            GameObject block = null;
+            TrackPos trackPos = TrackPos.Center;
+            CoinsStyle coinsStyle = CoinsStyle.Line;
+            if (i == 0)
+            {
+                trackPos = TrackPos.Left;
+                block = BlockUpPrefab;
+                Vector3 blockPos1 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos1, result);
+                GameObject go = Instantiate(block, blockPos1, Quaternion.identity);
+                go.transform.SetParent(result.transform);
+
+                trackPos = TrackPos.Center;
+                block = RampPrefab;
+                coinsStyle = CoinsStyle.RampLine;
+                Vector3 blockPos2 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos2, result);
+                go = Instantiate(block, blockPos2, Quaternion.identity);
+                go.transform.SetParent(result.transform);
+
+                trackPos = TrackPos.Right;
+                block = BlockDownPrefab;
+                coinsStyle = CoinsStyle.JumpLine;
+
+            }
+            else if (i == 1)
+            {
+                trackPos = TrackPos.Center;
+                block = BlockFullPrefab;
+                Vector3 blockPos1 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos1, result);
+
+                trackPos = TrackPos.Right;
+                coinsStyle = CoinsStyle.Line;
+                Vector3 blockPos2 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos2, result);
+
+                trackPos = TrackPos.Left;
+                coinsStyle = CoinsStyle.JumpLine;
+            }
+            else if (i == 2)
+            {
+                trackPos = TrackPos.Left;
+                block = BlockDownPrefab;
+                coinsStyle = CoinsStyle.JumpLine;
+                Vector3 blockPos1 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos1, result);
+                GameObject go = Instantiate(block, blockPos1, Quaternion.identity);
+                go.transform.SetParent(result.transform);
+
+                trackPos = TrackPos.Center;
+                coinsStyle = CoinsStyle.Line;
+                Vector3 blockPos2 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos2, result);
+
+                trackPos = TrackPos.Right;
+                block = BlockDownPrefab;
+                coinsStyle = CoinsStyle.JumpLine;
+            }
+            else if (i == 3)
+            {
+                trackPos = TrackPos.Left;
+                block = BlockDownPrefab;
+                coinsStyle = CoinsStyle.JumpLine;
+                Vector3 blockPos1 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos1, result);
+                GameObject go = Instantiate(block, blockPos1, Quaternion.identity);
+                go.transform.SetParent(result.transform);
+
+                trackPos = TrackPos.Center;
+                coinsStyle = CoinsStyle.Line;
+                Vector3 blockPos2 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos2, result);
+
+                trackPos = TrackPos.Right;
+                coinsStyle = CoinsStyle.Line;
+                block = null;
+            }
+            else
+            {
+                trackPos = TrackPos.Left;
+                block = RampPrefab;
+                coinsStyle = CoinsStyle.RampLine;
+                Vector3 blockPos1 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos1, result);
+                GameObject go = Instantiate(block, blockPos1, Quaternion.identity);
+                go.transform.SetParent(result.transform);
+
+                trackPos = TrackPos.Center;
+                coinsStyle = CoinsStyle.Line;
+                Vector3 blockPos2 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos2, result);
+
+                trackPos = TrackPos.Right;
+                block = RampPrefab;
+                coinsStyle = CoinsStyle.RampLine;
+            }
+
+            Vector3 blockPos = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+            CreateCoins(coinsStyle, blockPos, result);
+
+            if (block != null)
+            {
+                GameObject go = Instantiate(block, blockPos, Quaternion.identity);
+                go.transform.SetParent(result.transform);
+            }
+        }
+        return result;
+    }
+    GameObject MakeMap3()
+    {
+        GameObject result = new GameObject("Map2");
+        result.transform.SetParent(transform);
+        for (int i = 0; i < itemCountInMap; i++)
+        {
+            GameObject block = null;
+            TrackPos trackPos = TrackPos.Center;
+            CoinsStyle coinsStyle = CoinsStyle.Line;
+            if (i == 0)
+            {
+                trackPos = TrackPos.Left;
+                block = BlockDownPrefab;
+                coinsStyle = CoinsStyle.JumpLine;
+                Vector3 blockPos1 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos1, result);
+                GameObject go = Instantiate(block, blockPos1, Quaternion.identity);
+                go.transform.SetParent(result.transform);
+
+                trackPos = TrackPos.Center;
+                coinsStyle = CoinsStyle.Line;
+                Vector3 blockPos2 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos2, result);
+                go = Instantiate(block, blockPos2, Quaternion.identity);
+                go.transform.SetParent(result.transform);
+
+                trackPos = TrackPos.Right;
+                block = BlockDownPrefab;
+                coinsStyle = CoinsStyle.JumpLine;
+
+            }
+            else if (i == 1)
+            {
+                trackPos = TrackPos.Center;
+                block = BlockFullPrefab;
+                Vector3 blockPos1 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos1, result);
+
+                trackPos = TrackPos.Right;
+                coinsStyle = CoinsStyle.Line;
+                Vector3 blockPos2 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos2, result);
+
+                trackPos = TrackPos.Left;
+                coinsStyle = CoinsStyle.JumpLine;
+            }
+            else if (i == 2)
+            {
+                trackPos = TrackPos.Left;
+                block = BlockDownPrefab;
+                coinsStyle = CoinsStyle.JumpLine;
+                Vector3 blockPos1 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos1, result);
+                GameObject go = Instantiate(block, blockPos1, Quaternion.identity);
+                go.transform.SetParent(result.transform);
+
+                trackPos = TrackPos.Center;
+                coinsStyle = CoinsStyle.Line;
+                Vector3 blockPos2 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos2, result);
+
+                trackPos = TrackPos.Right;
+                block = BlockDownPrefab;
+                coinsStyle = CoinsStyle.JumpLine;
+            }
+            else if (i == 3)
+            {
+                trackPos = TrackPos.Left;
+                block = BlockDownPrefab;
+                coinsStyle = CoinsStyle.JumpLine;
+                Vector3 blockPos1 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos1, result);
+                GameObject go = Instantiate(block, blockPos1, Quaternion.identity);
+                go.transform.SetParent(result.transform);
+
+                trackPos = TrackPos.Center;
+                coinsStyle = CoinsStyle.Line;
+                Vector3 blockPos2 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos2, result);
+
+                trackPos = TrackPos.Right;
+                coinsStyle = CoinsStyle.Line;
+                block = null;
+            }
+            else
+            {
+                trackPos = TrackPos.Left;
+                block = RampPrefab;
+                coinsStyle = CoinsStyle.RampLine;
+                Vector3 blockPos1 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos1, result);
+                GameObject go = Instantiate(block, blockPos1, Quaternion.identity);
+                go.transform.SetParent(result.transform);
+
+                trackPos = TrackPos.Center;
+                coinsStyle = CoinsStyle.Line;
+                Vector3 blockPos2 = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
+                CreateCoins(coinsStyle, blockPos2, result);
+
+                trackPos = TrackPos.Right;
+                block = RampPrefab;
+                coinsStyle = CoinsStyle.RampLine;
+            }
+
+            Vector3 blockPos = new Vector3((int)trackPos * laneOffset, 0, i * itemSpace);
             CreateCoins(coinsStyle, blockPos, result);
 
             if (block != null)

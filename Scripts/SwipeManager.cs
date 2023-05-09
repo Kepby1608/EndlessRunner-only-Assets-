@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using UnityEditor.PackageManager.Requests;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -95,12 +92,10 @@ public class SwipeManager : MonoBehaviour
     {
         if (swipe[0] || swipe[1] || swipe[2] || swipe[3])
         {
-            Debug.Log(swipe[0] + "|" + swipe[1] + "|" + swipe[2] + "|" + swipe[3]);
             MoveEvent?.Invoke(swipe);
         }
         else
         {
-            Debug.Log("Click");
             ClickEvent?.Invoke(TouchPosition());
         }
         Reset();
@@ -116,47 +111,3 @@ public class SwipeManager : MonoBehaviour
         }
     }
 }
-
-/**
- private Touch touch;
-    public float speedModifier;
-    Rigidbody rb;
-
-    void Start()
-    {
-        speedModifier = 0.001f;
-        rb = GetComponent<Rigidbody>();
-    }
-
-    void FixedUpdate()
-    {
-        if (Input.touchCount > 0)
-        {
-            touch = Input.GetTouch(0);
-
-            if (touch.phase == TouchPhase.Moved)
-            {
-                transform.position = new Vector3(
-                    transform.position.x + (touch.deltaPosition.x * speedModifier),
-                    transform.position.y, 
-                    transform.position.z + (touch.deltaPosition.y * speedModifier));
-            }
-
-            /*Touch touch1 = Input.GetTouch(0);
-            if (touch1.phase == TouchPhase.Stationary)
-            {
-                float distance = touch1.deltaPosition.magnitude; //touch.deltaPosition возвращает Vector2. magnitude позволяет узнать его длинну
-                float speed = distance / Time.deltaTime;
-                Debug.Log("Скорость движения пальца :" + speed);
-            }*
-        }
-        /*
-        foreach (Touch touch in Input.touches)
-        {
-            Vector3 newPosition = transform.position;
-            newPosition.x += Mathf.Clamp(touch.deltaPosition.y * speedModifier, 0, 15) * Time.deltaTime;
-            transform.position = newPosition;   
-        }*
-
-    }
- */

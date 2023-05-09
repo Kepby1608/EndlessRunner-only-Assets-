@@ -3,16 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
     Vector3 startGamePosition;
+    int score = 0;
+    int tempScore;
     float laneOffset;
     float pointStart;
     float pointFinish;
     float lastVectorX;
-    float velocity;
     public float jumpPower = 15;
     public float jumpForce;
     public float jumpGravity = -40f;
@@ -24,30 +26,60 @@ public class PlayerController : MonoBehaviour
     public bool isMoving = false;
     public bool isJumping = false;
     public LayerMask layerMask;
+
+    public Text scoreText;
+    public Text maxScore;
+    public Canvas losePanel;
+    public UnityEngine.UI.Button pauseButton;
+
+    public AudioClip jumpClip;
+    public AudioClip musicLose;
+    private AudioSource musicSource;
+
     Coroutine movingCoroutine;
     Rigidbody rb;
 
     void Start()
     {
-        laneOffset = MapGenerator.instance.laneOffset;
+        laneOffset = MapGenerator.Instance.laneOffset;
         Physics.gravity = new Vector3(0, -20, 0);
         startGamePosition = transform.position;
         rb = GetComponent<Rigidbody>();
         SwipeManager.instance.MoveEvent += MovePlayer;
+        musicSource = GetComponent<AudioSource>();
     }
 
     public void StartLevel()
     {
-        RoadGenerator.instance.StartLevel();
+        RoadGenerator.Instance.StartLevel();
     }
 
     public void ResetGame()
     {
+        tempScore = 0;
+        CoinsCount.Instance.countCoin = 0;
         rb.velocity = Vector3.zero;
         pointStart = 0;
         pointFinish = 0;
         transform.position = startGamePosition;
-        RoadGenerator.instance.ResetLevel();
+        RoadGenerator.Instance.ResetLevel();
+    }
+
+    public void ResetScore ()
+    {
+
+        PlayerPrefs.DeleteKey("score");
+    }
+
+    private void FixedUpdate()
+    {
+        if (SwipeManager.instance.enabled)
+        {
+            tempScore++;
+            score = (int)(tempScore * 0.02f);
+            scoreText.text = "Score: " + score.ToString();
+        }
+
     }
 
     void MovePlayer(bool[] swipes)
@@ -59,54 +91,30 @@ public class PlayerController : MonoBehaviour
         if (swipes[(int)SwipeManager.Direction.Right] && pointFinish < laneOffset)
         {
             MoveHorizontal(laneChangeSpeed);
-        } /*
-        if (swipes[(int)SwipeManager.Direction.Up] && tryJump == false) // && rb.velocity.y == 0
+        } 
+        if (swipes[(int)SwipeManager.Direction.Up] && isJumping == false) // && rb.velocity.y == 0
         {
-            tryJump = true;
-        }*/
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            tryJump = true;
+            Jump();
         }
     }
 
-    private void FixedUpdate()
+    void Jump()
     {
-        //velocity += Physics.gravity.y * 5 * Time.deltaTime;
-
-        if (tryJump)
-        {
-            /*
-            velocity = Mathf.Sqrt(30 * -2 * (Physics.gravity.y * 5));
-            transform.Translate(new Vector3(0, velocity, 0) *  Time.deltaTime);
-            tryJump = false;
-            */
-
-            jumpForce = Mathf.Sqrt(3 * Physics.gravity.y * -2) * rb.mass;
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            tryJump = false;
-        }
+        isJumping = true;
+        AudioSource.PlayClipAtPoint(jumpClip, transform.position);
+        rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+        Physics.gravity = new Vector3(0, jumpGravity, 0);
+        StartCoroutine(StopJumpCoroutine());
     }
 
-
-    bool CheckingJump()
+    IEnumerator StopJumpCoroutine()
     {
-        Ray ray = new Ray();
-        ray.origin = transform.position;
-        ray.direction = -transform.up;
-        if (Physics.Raycast(ray, distanceRay, layerMask))
+        do
         {
-            isJumping = false;
-        }
-        else
-        {
-            isJumping = true;
-        }
-        return Physics.Raycast(ray, distanceRay, layerMask);
+            yield return new WaitForSeconds(0.02f);
+        } while (rb.velocity.y != 0);
+        isJumping = false;
+        Physics.gravity = new Vector3(0, realGravity, 0);
     }
 
     void MoveHorizontal(float speed)
@@ -151,6 +159,19 @@ public class PlayerController : MonoBehaviour
         }
         if (other.gameObject.tag == "Lose")
         {
+            losePanel.gameObject.SetActive(true);
+            pauseButton.gameObject.SetActive(false);
+            AudioSource.PlayClipAtPoint(musicLose, transform.position);
+            if (losePanel.isActiveAndEnabled)
+            {
+                musicSource.Stop();
+                if (score > PlayerPrefs.GetInt("score"))
+                {
+                    PlayerPrefs.SetInt("score", score);
+                }
+                maxScore.text = "Score: " + score + " \nMac score:  " + PlayerPrefs.GetInt("score").ToString();
+                score = 0;
+            }
             ResetGame();
         }
     }
@@ -184,10 +205,5 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector3(rb.velocity.x, -10, rb.velocity.z);
             }
         }
-    }
-
-    private void Move(Vector3 direction) 
-    {
-        rb.AddRelativeForce(direction * forceValue);
     }
 } 

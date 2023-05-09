@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8224300255762597878}
   - component: {fileID: 5056936925172776019}
   - component: {fileID: 5950013613585174920}
-  - component: {fileID: 2289830370086346580}
+  - component: {fileID: 4626192100843323785}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -98,7 +98,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.4
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2289830370086346580
+--- !u!114 &4626192100843323785
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -110,6 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04182d26711a32e47a8850db431c2440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CC: {fileID: 0}
+  coinSound: {fileID: 8300000, guid: ee532848b76d30b448553070b0ec7df3, type: 3}
 --- !u!1 &7940876873454335271
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,7 +159,6 @@ GameObject:
   - component: {fileID: 1291291306784583357}
   - component: {fileID: 6921368623379222734}
   - component: {fileID: 7051409146286975714}
-  - component: {fileID: 4300630780313509729}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -3188,7 +3189,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1654
+  m_VersionIndex: 1663
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -3287,18 +3288,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.3
   m_Center: {x: 0, y: -0.0000000018626456, z: -0.000000014901165}
---- !u!114 &4300630780313509729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8225581667630478230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04182d26711a32e47a8850db431c2440, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8494325382961256501
 GameObject:
   m_ObjectHideFlags: 0
