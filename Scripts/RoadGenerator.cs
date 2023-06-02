@@ -9,25 +9,15 @@ public class RoadGenerator : Singleton<RoadGenerator>
     public float maxSpeed = 10;
     public float speed = 0;
     public int maxRoadCount = 5;
-    
-    /*
-    public static RoadGenerator instance;
-    void Awake()
-    {
-        instance = this;
-    }*/
+    public int endPosition = -35;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         PoolManager.Instance.Preload(roadPrefab, 15);
 
         ResetLevel();
-        //StartLevel();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (speed == 0) return;
@@ -37,7 +27,7 @@ public class RoadGenerator : Singleton<RoadGenerator>
             road.transform.position -= new Vector3(0, 0, speed * Time.deltaTime);
         }
         
-        if (roads[0].transform.position.z < -25)
+        if (roads[0].transform.position.z < endPosition)
         {
             Destroy(roads[0]);
             roads.RemoveAt(0);

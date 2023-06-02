@@ -65,7 +65,7 @@ public class MapGenerator : Singleton<MapGenerator>
         {
             map.transform.position -= new Vector3(0, 0, RoadGenerator.Instance.speed * Time.deltaTime);
         }
-        if (activeMaps[0].transform.position.z < -mapSize)
+        if (activeMaps[0].transform.position.z < (-mapSize - 50))
         {
             RemoveFirstActiveMap();
             AddActiveMap();

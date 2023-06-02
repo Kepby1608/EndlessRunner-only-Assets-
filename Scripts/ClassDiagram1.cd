@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="UnityEngine.MonoBehaviour">
+    <Position X="9.5" Y="3" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Singleton&lt;T&gt;">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Singleton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CoinsCount">
+    <Position X="11.25" Y="3.25" Width="1.5" />
+    <InheritanceLine Type="Singleton&lt;T&gt;" ManuallyRouted="true">
+      <Path>
+        <Point X="11.25" Y="2.377" />
+        <Point X="11.25" Y="2.624" />
+        <Point X="12" Y="2.624" />
+        <Point X="12" Y="3.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAACBAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\CoinsCount.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MapGenerator">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="MapGenerator.TrackPos">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\MapGenerator.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="MapGenerator.CoinsStyle">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\MapGenerator.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Struct Name="MapGenerator.MapItem">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\MapGenerator.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>IIUQAAAJACAAAkAAggAABCAAIAiCAAAEAAAAAQAEAFA=</HashCode>
+      <FileName>Assets\Scripts\MapGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PoolManager">
+    <Position X="13" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Class Name="PoolManager.Pool" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\PoolManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAEAEAAAAAAAACAAAAACAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\PoolManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RoadGenerator">
+    <Position X="13" Y="3.25" Width="1.5" />
+    <InheritanceLine Type="Singleton&lt;T&gt;" ManuallyRouted="true">
+      <Path>
+        <Point X="11.25" Y="2.377" />
+        <Point X="11.25" Y="2.624" />
+        <Point X="11.99" Y="2.624" />
+        <Point X="11.99" Y="3.127" />
+        <Point X="13.75" Y="3.127" />
+        <Point X="13.75" Y="3.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAQQAAAAACAAAAQAAACBAAAAAAAAAQAAAAAACAEQAAA=</HashCode>
+      <FileName>Assets\Scripts\RoadGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
