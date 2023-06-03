@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (SwipeManager.instance.enabled)
+        if (MovePlayer.Instance.enabled)
         {
             tempScore++;
             score = (int)(tempScore * 0.02f);

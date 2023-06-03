@@ -2,9 +2,8 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SwipeManager : MonoBehaviour
+public class SwipeManager : Singleton<SwipeManager>
 {
-    public static SwipeManager instance;
 
     public enum Direction { Left, Right, Up, Down };
 
@@ -41,11 +40,7 @@ public class SwipeManager : MonoBehaviour
     {
         return Input.GetMouseButton(0);
     }
-
-    private void Awake()
-    {
-        instance = this; 
-    }
+    
 
     private void Update()
     {

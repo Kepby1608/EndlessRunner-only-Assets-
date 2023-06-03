@@ -6,15 +6,14 @@ public class RoadGenerator : Singleton<RoadGenerator>
 {
     public GameObject roadPrefab;
     public List<GameObject> roads = new List<GameObject>();
-    public float maxSpeed = 10;
+    private float startSpeed = 10;
     public float speed = 0;
-    public int maxRoadCount = 5;
-    public int endPosition = -35;
+    public int maxRoadCount = 7;
+    private int endPosition = -35;
 
     void Start()
     {
         PoolManager.Instance.Preload(roadPrefab, 15);
-
         ResetLevel();
     }
 
@@ -37,7 +36,7 @@ public class RoadGenerator : Singleton<RoadGenerator>
 
     private void CreateNextRoad()
     {
-        Vector3 pos = Vector3.zero;
+        Vector3 pos = new Vector3(0, 0, -10);
         if (roads.Count > 0)
         {
             pos = roads[roads.Count - 1].transform.position + new Vector3(0, 0, 15);
@@ -49,9 +48,9 @@ public class RoadGenerator : Singleton<RoadGenerator>
 
     public void StartLevel()
     {
-        speed = maxSpeed;
+        speed = startSpeed;
         Time.timeScale = 1;
-        SwipeManager.instance.enabled = true;
+        MovePlayer.Instance.enabled = true;
     }
 
     public void ResetLevel()
@@ -67,7 +66,7 @@ public class RoadGenerator : Singleton<RoadGenerator>
             CreateNextRoad();
         }
 
-        SwipeManager.instance.enabled = false;
+        MovePlayer.Instance.enabled = false;
         MapGenerator.Instance.ResetMaps();
     }
 }

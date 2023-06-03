@@ -55,7 +55,7 @@ public class PoolManager : Singleton<PoolManager>
         GameObject[] objs = new GameObject[num];
         for (int i = 0; i < num; i++)
         {
-            objs[i] = Spawn(prefab, Vector3.zero, Quaternion.identity);
+            objs[i] = Spawn(prefab, new Vector3(0, 0, 0), Quaternion.identity);
         }
         for (int i = 0; i < num; i++)
         {
