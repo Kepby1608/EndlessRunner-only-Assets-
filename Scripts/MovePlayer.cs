@@ -40,6 +40,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.WSA;
+using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 public class MovePlayer : Singleton<RoadGenerator>
 {
@@ -50,61 +51,89 @@ public class MovePlayer : Singleton<RoadGenerator>
     private Vector3 touchPosition;
     private Vector3 direction;
     public float moveSpeed = 0.1f;
+    public bool isSensor;
 
-    // accelerator
-    public Quaternion calibrationQuaternion;
-    public bool isSensor = true;
-    public float sensetive = 25f;
+    // accelerometr
+    public float speed;
+    Vector3 momentV;
+    Vector3 dirV;
+    Vector3 defV;
+    bool flag = false;
+    bool zet = true;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        CalibrateAccelerometer();
+        flag = false;
+        zet = true;
+        speed = 1000;
     }
 
-    void FixedUpdate()
+    void Update()
     {
 
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved && isSensor)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved && isSensor) // sensor
         {
             touchPosition = Input.GetTouch(0).deltaPosition;
             direction = new Vector3(touchPosition.x, touchPosition.y, 0);
             rb.velocity = direction * moveSpeed;
         }
-        else if (!isSensor)
+        else if (!isSensor) // accelerometr
         {
-            // каждый кадр проверяем положение телефона в пространстве
-            Vector3 acceleration = Input.acceleration;
-            // получаем координаты текущего положения телефона относительно стартового положения
-            //Vector3 acceleration = FixAcceleration(accelerationRaw);
-            rb.velocity = new Vector3(acceleration.x, -acceleration.z, 0) * sensetive;
+            if (!flag)
+            {
+                momentV.x = Input.acceleration.x;
+                momentV.y = -Input.acceleration.z;
+                momentV.z = 0;
+                dirV = Vector3.zero;
+                defV = momentV - dirV;
+
+                if (dirV != defV)
+                {
+                    flag = true;
+
+                    if (momentV.y > -0.7 && momentV.y <= 0.7)
+                    {
+                        zet = true;
+                    }
+                    else
+                    {
+                        momentV.y = -Input.acceleration.y;
+                        zet = false;
+                    }
+                    defV = momentV - dirV;
+                }
+            }
+
+            if (flag && zet)
+            {
+                momentV.x = Input.acceleration.x;
+                momentV.y = -Input.acceleration.z;
+            }
+            else if (flag && !zet)
+            {
+                momentV.x = Input.acceleration.x;
+                momentV.y = -Input.acceleration.y;
+            }
+
+            dirV = (momentV - defV);
+
+            dirV.x = Mathf.Clamp(dirV.x, -0.25f, 0.25f);
+            dirV.y = Mathf.Clamp(dirV.y, -0.25f, 0.25f);
+
+            if (momentV.sqrMagnitude > 1)
+                momentV.Normalize();
+
+            dirV *= speed;
+
+            dirV *= Time.deltaTime;
+            rb.velocity = dirV;
         }
         else
         {
             rb.velocity = Vector3.zero;
         }
-    }
 
-    public void CalibrateAccelerometer()
-    {
-        // получаем данные с датчика акселерометра и записываем в accelerationSnapshot
-        Vector3 accelerationSnapshot = Input.acceleration;
-
-        // поворачиваем из положения лицом вверх в положение, полученное от акселерометра
-        // функция возвращает координаты положения телефона в пространстве типа кватернион (текущее положение телефона)
-        Quaternion rotateQuaternion = Quaternion.FromToRotation(new Vector3(0f, 0f, -1f), accelerationSnapshot);
-
-        // инвертируем значение осей
-        calibrationQuaternion = Quaternion.Inverse(rotateQuaternion);
-        Debug.Log("Calibrated");
-    }
-
-    public Vector3 FixAcceleration(Vector3 acceleration)
-    {
-        // умножаем стартовое положение телефона на текущее
-        // получаем текущее положение с учетом калибровки
-        Vector3 fixedAcceleration = calibrationQuaternion * acceleration;
-        return fixedAcceleration;
     }
 }
 

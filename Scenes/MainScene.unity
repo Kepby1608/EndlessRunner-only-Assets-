@@ -2116,7 +2116,6 @@ GameObject:
   - component: {fileID: 975131970}
   - component: {fileID: 975131971}
   - component: {fileID: 975131972}
-  - component: {fileID: 975131973}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2639,22 +2638,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0.2
-  calibrationQuaternion: {x: 0, y: 0, z: 0, w: 0}
   isSensor: 1
-  sensetive: 25
---- !u!114 &975131973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 975131958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89644be843de020498f7390bec368303, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isSensor: 1
+  speed: 0
 --- !u!1 &1216612376
 GameObject:
   m_ObjectHideFlags: 0
@@ -2939,7 +2924,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh23450
+  m_Name: pb_Mesh23476
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
