@@ -24,7 +24,7 @@ public class ExampleClass : MonoBehaviour
         if (!flag)
         {
             momentV.x = Input.acceleration.x;
-            momentV.y = -Input.acceleration.z;
+            momentV.y = Input.acceleration.z;
             momentV.z = 0;
             dirV = Vector3.zero;
             defV = momentV - dirV;
@@ -39,7 +39,7 @@ public class ExampleClass : MonoBehaviour
                 }
                 else
                 {
-                    momentV.y = -Input.acceleration.y;
+                    momentV.y = Input.acceleration.y;
                     zet = false;
                 }
                 defV = momentV - dirV;
@@ -49,12 +49,14 @@ public class ExampleClass : MonoBehaviour
         if (flag && zet)
         {
             momentV.x = Input.acceleration.x;
-            momentV.y = -Input.acceleration.z;
+            momentV.y = Input.acceleration.z;
+            Debug.Log("Z = " + momentV);
         }
         else if (flag && !zet)
         {
             momentV.x = Input.acceleration.x;
-            momentV.y = -Input.acceleration.y;
+            momentV.y = Input.acceleration.y;
+            Debug.Log("Y = " + momentV);
         }
 
         dirV = (momentV - defV);

@@ -1,48 +1,8 @@
-/*
-using System.Collections;
-using System.Collections.Generic;
+
+using System;
 using UnityEngine;
-using UnityEngine.WSA;
 
-public class MovePlayer : Singleton<MovePlayer>
-{
-    // base
-    private Rigidbody rb;
-
-    // sensor
-    private Vector3 touchPosition;
-    private Vector3 direction;
-    public float moveSpeed = 0.1f;
-
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
-
-    void FixedUpdate()
-    {
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved && AcceleratorController.Instance.isSensor)
-        {
-            touchPosition = Input.GetTouch(0).deltaPosition;
-            direction = new Vector3(touchPosition.x, touchPosition.y, 0);
-            rb.velocity = direction * moveSpeed;
-        }
-        else
-        {
-            rb.velocity = Vector3.zero;
-        }
-    }
-} */
-
-
-
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.WSA;
-using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
-
-public class MovePlayer : Singleton<RoadGenerator>
+public class MovePlayer : MonoBehaviour
 {
     // base
     private Rigidbody rb;
@@ -59,10 +19,16 @@ public class MovePlayer : Singleton<RoadGenerator>
     Vector3 dirV;
     Vector3 defV;
     bool flag = false;
-    bool zet = true;
-
+    public bool zet = true;
+    
+    public static MovePlayer instance;
+    void Awake()
+    {
+        instance = this;
+    }
     void Start()
     {
+        isSensor = true;
         rb = GetComponent<Rigidbody>();
         flag = false;
         zet = true;
@@ -80,30 +46,7 @@ public class MovePlayer : Singleton<RoadGenerator>
         }
         else if (!isSensor) // accelerometr
         {
-            if (!flag)
-            {
-                momentV.x = Input.acceleration.x;
-                momentV.y = -Input.acceleration.z;
-                momentV.z = 0;
-                dirV = Vector3.zero;
-                defV = momentV - dirV;
-
-                if (dirV != defV)
-                {
-                    flag = true;
-
-                    if (momentV.y > -0.7 && momentV.y <= 0.7)
-                    {
-                        zet = true;
-                    }
-                    else
-                    {
-                        momentV.y = -Input.acceleration.y;
-                        zet = false;
-                    }
-                    defV = momentV - dirV;
-                }
-            }
+            AccelerometerOn();
 
             if (flag && zet)
             {
@@ -113,7 +56,7 @@ public class MovePlayer : Singleton<RoadGenerator>
             else if (flag && !zet)
             {
                 momentV.x = Input.acceleration.x;
-                momentV.y = -Input.acceleration.y;
+                momentV.y = Input.acceleration.y;
             }
 
             dirV = (momentV - defV);
@@ -134,6 +77,54 @@ public class MovePlayer : Singleton<RoadGenerator>
             rb.velocity = Vector3.zero;
         }
 
+    }
+
+    private void AccelerometerOn()
+    {
+        if (!flag)
+        {
+            momentV.x = Input.acceleration.x;
+            momentV.y = -Input.acceleration.z;
+            momentV.z = 0;
+            dirV = Vector3.zero;
+            defV = momentV - dirV;
+
+            if (dirV != defV)
+            {
+                flag = true;
+
+                if (momentV.y > -0.7 && momentV.y <= 0.7)
+                {
+                    zet = true;
+                }
+                else
+                {
+                    momentV.y = Input.acceleration.y;
+                    zet = false;
+                }
+                defV = momentV - dirV;
+            }
+        }
+    }
+
+    private void AccelerometerOff()
+    {
+        flag = false;
+    }
+
+    public void SensorOn()
+    {
+        if (!isSensor)
+            isSensor = true;
+    }
+    
+    public void SensorOff()
+    {
+        if (isSensor)
+        {
+            isSensor = false;
+            AccelerometerOff();
+        }
     }
 }
 

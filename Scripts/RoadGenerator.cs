@@ -50,7 +50,7 @@ public class RoadGenerator : Singleton<RoadGenerator>
     {
         speed = startSpeed;
         Time.timeScale = 1;
-        MovePlayer.Instance.enabled = true;
+        MovePlayer.instance.enabled = true;
     }
 
     public void ResetLevel()
@@ -66,7 +66,7 @@ public class RoadGenerator : Singleton<RoadGenerator>
             CreateNextRoad();
         }
 
-        MovePlayer.Instance.enabled = false;
+        MovePlayer.instance.enabled = false;
         MapGenerator.Instance.ResetMaps();
     }
 }
