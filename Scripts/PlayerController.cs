@@ -10,12 +10,12 @@ using UnityEngine.UIElements;
 public class PlayerController : MonoBehaviour
 {
     //округление до нул€
-    float epsilon = 0.0001f; //погрешность
+    //float epsilon = 0.0001f; //погрешность
 
-    Vector3 startGamePosition;
+    //Vector3 startGamePosition;
     int score = 0;
     int tempScore;
-    float laneOffset;
+    //float laneOffset;
     public float jumpPower = 15;
     public float jumpForce;
     public float jumpGravity = -40f;
@@ -38,15 +38,13 @@ public class PlayerController : MonoBehaviour
     public AudioClip musicLose;
     private AudioSource musicSource;
 
-    Coroutine movingCoroutine;
-    Coroutine movingCoroutineVertical;
     Rigidbody rb;
 
     void Start()
     {
-        laneOffset = MapGenerator.Instance.laneOffset; 
+        //laneOffset = MapGenerator.Instance.laneOffset; 
         Physics.gravity = new Vector3(0, 0, 0); 
-        startGamePosition = transform.position; 
+        //startGamePosition = transform.position; 
         rb = GetComponent<Rigidbody>(); 
         //SwipeManager.instance.MoveEvent += MovePlayer; 
         musicSource = GetComponent<AudioSource>();
@@ -75,11 +73,31 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //if (MovePlayer.instance.enabled)
+        //{
+        //    tempScore++;
+        //    if (score < (int)(tempScore * 0.02f))
+        //        RoadGenerator.Instance.speed += score * 0.1f;
+        //    score = (int)(tempScore * 0.02f);
+        //    scoreText.text = "Score: " + score.ToString();
+        //}
+
         if (MovePlayer.instance.enabled)
         {
             tempScore++;
-            score = (int)(tempScore * 0.02f);
-            scoreText.text = "Score: " + score.ToString();
+
+            // –ассчитываем текущий score и speed
+            float currentScore = tempScore * 0.1f;
+            int roundedScore = Mathf.RoundToInt(currentScore);
+            float speed = 10.1f + (roundedScore - 1) * 0.1f;
+
+            // ѕровер€ем, изменилс€ ли score и speed
+            if (roundedScore != score)
+            {
+                score = roundedScore;
+                RoadGenerator.Instance.speed = speed;
+                scoreText.text = "Score: " + score.ToString();
+            }
         }
 
     }
@@ -110,38 +128,38 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Ramp")
-        {
-            rb.constraints &= ~RigidbodyConstraints.FreezePositionZ;
-        }
-    }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.gameObject.tag == "Ramp")
+    //    {
+    //        rb.constraints &= ~RigidbodyConstraints.FreezePositionZ;
+    //    }
+    //}
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        /*
-        if (collision.gameObject.tag == "Ground")
-        {
-            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-        }
-        */
-        if (collision.gameObject.tag == "Not Lose")
-        {
-           // MoveHorizontal(-lastVectorX);
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    /*
+    //    if (collision.gameObject.tag == "Ground")
+    //    {
+    //        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+    //    }
+    //    */
+    //    if (collision.gameObject.tag == "Not Lose")
+    //    {
+    //       // MoveHorizontal(-lastVectorX);
+    //    }
+    //}
 
-    private void OnCollisionExit(Collision collision)
-    {
-        /*
-        if (collision.gameObject.tag == "RampPlane")
-        {
-            if (rb.velocity.x == 0 && isJumping == false)
-            { // -10 это скорость падени€ с рампы
-                rb.velocity = new Vector3(rb.velocity.x, -10, rb.velocity.z);
-            }
-        }
-        */
-    }
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    /*
+    //    if (collision.gameObject.tag == "RampPlane")
+    //    {
+    //        if (rb.velocity.x == 0 && isJumping == false)
+    //        { // -10 это скорость падени€ с рампы
+    //            rb.velocity = new Vector3(rb.velocity.x, -10, rb.velocity.z);
+    //        }
+    //    }
+    //    */
+    //}
 } 

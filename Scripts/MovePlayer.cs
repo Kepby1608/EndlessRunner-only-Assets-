@@ -21,7 +21,7 @@ public class MovePlayer : MonoBehaviour
     public bool isSensor;
 
     // accelerometr
-    public float speed = 25;
+    public float speed = 10;
     Vector3 momentV;
     Vector3 dirV;
     Vector3 defV;
@@ -45,7 +45,7 @@ public class MovePlayer : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         flag = false;
         zet = true;
-        speed = 25;
+        speed = 10;
     }
 
     void Update()
