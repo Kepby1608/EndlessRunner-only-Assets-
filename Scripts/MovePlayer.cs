@@ -2,6 +2,13 @@
 using System;
 using UnityEngine;
 
+//[System.Serializable]
+//public class Boundary
+//{
+//    public float xMin, xMax, yMin, yMax;
+
+//}
+
 public class MovePlayer : MonoBehaviour
 {
     // base
@@ -14,13 +21,19 @@ public class MovePlayer : MonoBehaviour
     public bool isSensor;
 
     // accelerometr
-    public float speed;
+    public float speed = 25;
     Vector3 momentV;
     Vector3 dirV;
     Vector3 defV;
     bool flag = false;
     public bool zet = true;
-    
+
+    // rotation
+    //public float Speed = 10;
+    //public Boundary boundary;
+    //public float tiltASide;
+    //public float tiltForward;
+
     public static MovePlayer instance;
     void Awake()
     {
@@ -32,17 +45,39 @@ public class MovePlayer : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         flag = false;
         zet = true;
-        speed = 1000;
+        speed = 25;
     }
 
     void Update()
     {
 
+        //float moveHorizontal = Input.GetAxis("Horizontal");
+        //float moveVertical = Input.GetAxis("Vertical");
+
+        
+
+        //rb.velocity = new Vector3(moveHorizontal, moveVertical, 0) * Speed;
+
+        //rb.position = new Vector3(
+        //    Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax),
+        //    0.0f,
+        //    Mathf.Clamp(rb.position.y, boundary.yMin, boundary.yMax)
+        //    );
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved && isSensor) // sensor
         {
             touchPosition = Input.GetTouch(0).deltaPosition;
             direction = new Vector3(touchPosition.x, touchPosition.y, 0);
             rb.velocity = direction * moveSpeed;
+
+            //rb.rotation = Quaternion.Euler(0f, 0f, Mathf.Clamp(rb.velocity.x * -tiltASide * 0.25f, -10, 10));
+
+            //float moveHorizontal = Input.GetAxis("Horizontal");
+            //float moveVertical = Input.GetAxis("Vertical");
+            //rb.velocity = new Vector3(moveHorizontal, moveVertical, 0) * Speed;
+
         }
         else if (!isSensor) // accelerometr
         {
@@ -71,6 +106,8 @@ public class MovePlayer : MonoBehaviour
 
             dirV *= Time.deltaTime;
             rb.velocity = dirV;
+            //rb.rotation = Quaternion.Euler(0f, 0f, rb.velocity.x * -tiltASide);
+
         }
         else
         {
