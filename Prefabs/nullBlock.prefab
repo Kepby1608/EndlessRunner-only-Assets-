@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5211284027912949597}
   m_Layer: 0
-  m_Name: EmptyBlock
+  m_Name: nullBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

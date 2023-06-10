@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.827451, g: 0, b: 1, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.02
@@ -827,7 +827,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &292544653
 GameObject:
@@ -2093,9 +2093,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerOwn
       objectReference: {fileID: 0}
+    - target: {fileID: 2695619733037790961, guid: e3c36de1655378546b7ae47dc5655efc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3962020322121531258, guid: e3c36de1655378546b7ae47dc5655efc, type: 3}
       propertyPath: MaxDistance
-      value: 1.0478019
+      value: 1.0478028
       objectReference: {fileID: 0}
     - target: {fileID: 3962020322121531258, guid: e3c36de1655378546b7ae47dc5655efc, type: 3}
       propertyPath: MinDistance
@@ -2155,7 +2159,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9930946b7c5f48e44aef1e56c2de7315, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9930946b7c5f48e44aef1e56c2de7315, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2502,10 +2506,13 @@ MonoBehaviour:
   laneUpOffset: 2
   coinPrefab: {fileID: 7940876873454335271, guid: ac0507eae7683cc4aab646dd25d526ec, type: 3}
   prefabs:
+  - {fileID: 6272496265246827189, guid: 5963754a91da29547aad7825eb483d9e, type: 3}
+  - {fileID: 4654700244020572512, guid: bcdbbe5f0e5a75442ad22c2038b34bde, type: 3}
+  - {fileID: 2501788861168973150, guid: 7feccf34840012f468efcd4e0923c0ed, type: 3}
+  - {fileID: 7357485837497242139, guid: 41cec25cd4835cb458bb945bb8308e47, type: 3}
   - {fileID: 3231281926070003079, guid: 0f02ca6ac62d12f47a82d73a644a1f4d, type: 3}
-  - {fileID: 4873720531891485274, guid: 60effbbb88b50054b9f897e14dc4b1ce, type: 3}
-  - {fileID: 2943820706393743255, guid: 2ea70e7f5b53a9c4d92e43aa77783cd7, type: 3}
-  - {fileID: 1072269335464650008, guid: 8018e754a44421c48b64154553f6e3a8, type: 3}
+  - {fileID: 7514360767134956394, guid: b1af54f8ee102fa428459c818c13f844, type: 3}
+  - {fileID: 7809574513934171154, guid: 101b2b2d79a4dd248b7b15b2c6ce12ad, type: 3}
   - {fileID: 7809574513934171154, guid: 101b2b2d79a4dd248b7b15b2c6ce12ad, type: 3}
   - {fileID: 7809574513934171154, guid: 101b2b2d79a4dd248b7b15b2c6ce12ad, type: 3}
   maps: []
@@ -2603,7 +2610,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.13052598, y: -0, z: -0, w: 0.9914449}
-  m_LocalPosition: {x: 0, y: 5.5, z: -10.59}
+  m_LocalPosition: {x: 0, y: 3.5, z: -9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2624,7 +2631,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 2008402657}
   trackingSpeed: 1.5
-  posYOverPlayer: 5
+  posYOverPlayer: 3
 --- !u!1 &975131958
 GameObject:
   m_ObjectHideFlags: 0
@@ -3155,6 +3162,7 @@ MonoBehaviour:
   moveSpeed: 0.2
   isSensor: 1
   speed: 0
+  speedAccelerometer: 1000
   zet: 1
 --- !u!1001 &985160985
 PrefabInstance:
@@ -3173,7 +3181,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9930946b7c5f48e44aef1e56c2de7315, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9930946b7c5f48e44aef1e56c2de7315, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3319,7 +3327,7 @@ RectTransform:
   - {fileID: 2016016510}
   - {fileID: 1970964426}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3970,6 +3978,7 @@ MonoBehaviour:
   roads: []
   speed: 0
   maxRoadCount: 20
+  endPosition: -60
 --- !u!4 &1673674389
 Transform:
   m_ObjectHideFlags: 0
@@ -4557,6 +4566,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2008402661}
+        m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1970964428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4619,6 +4640,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosion: {fileID: 0}
   explosionPlayer: {fileID: 100008, guid: 3455fe69f7ddc4604b95bf9b0a1e88d7, type: 3}
+--- !u!23 &2008402661 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2695619731828084766, guid: e3c36de1655378546b7ae47dc5655efc, type: 3}
+  m_PrefabInstance: {fileID: 865989689}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2016016506
 GameObject:
   m_ObjectHideFlags: 0
@@ -4753,6 +4779,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2008402661}
+        m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &2016016508
 MonoBehaviour:

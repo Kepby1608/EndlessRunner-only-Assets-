@@ -7,7 +7,7 @@ public class CameraTracking : MonoBehaviour
     public Transform Player;
     Vector3 target;
     public float trackingSpeed = 1.5f;
-    public float posYOverPlayer = 5;
+    public float posYOverPlayer = 2.5f;
 
     private void Update()
     {

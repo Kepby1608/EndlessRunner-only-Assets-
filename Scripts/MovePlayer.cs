@@ -22,6 +22,7 @@ public class MovePlayer : MonoBehaviour
 
     // accelerometr
     public float speed = 10;
+    public float speedAccelerometer = 1000;
     Vector3 momentV;
     Vector3 dirV;
     Vector3 defV;
@@ -102,7 +103,7 @@ public class MovePlayer : MonoBehaviour
             if (momentV.sqrMagnitude > 1)
                 momentV.Normalize();
 
-            dirV *= speed;
+            dirV *= speedAccelerometer;
 
             dirV *= Time.deltaTime;
             rb.velocity = dirV;

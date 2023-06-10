@@ -40,7 +40,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: d9808401c68af274a8edfbed3d1b53c7, type: 3}
       propertyPath: m_Name
-      value: Player
+      value: PlayerOwn
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: d9808401c68af274a8edfbed3d1b53c7, type: 3}
       propertyPath: m_IsActive
@@ -271,15 +271,8 @@ MonoBehaviour:
   moveSpeed: 0.2
   isSensor: 1
   speed: 0
+  speedAccelerometer: 1000
   zet: 1
-  Speed: 10
-  boundary:
-    xMin: 0
-    xMax: 0
-    yMin: 0
-    yMax: 0
-  tiltASide: 1
-  tiltForward: 2
 --- !u!114 &1776813409389797793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,6 +315,10 @@ PrefabInstance:
     - target: {fileID: 100002, guid: 62ea8a5ca94c546f29ba6dea8f379a7b, type: 3}
       propertyPath: m_Name
       value: engines_player
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 62ea8a5ca94c546f29ba6dea8f379a7b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 62ea8a5ca94c546f29ba6dea8f379a7b, type: 3}
       propertyPath: m_RootOrder

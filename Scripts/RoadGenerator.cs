@@ -9,7 +9,7 @@ public class RoadGenerator : Singleton<RoadGenerator>
     private float startSpeed = 10;
     public float speed = 0;
     public int maxRoadCount = 7;
-    private int endPosition = -35;
+    public int endPosition = -75;
 
     void Start()
     {
@@ -39,7 +39,7 @@ public class RoadGenerator : Singleton<RoadGenerator>
         Vector3 pos = new Vector3(0, 0, -10);
         if (roads.Count > 0)
         {
-            pos = roads[roads.Count - 1].transform.position + new Vector3(0, 0, 15);
+            pos = roads[roads.Count - 1].transform.position + new Vector3(0, 0, 40.5f);
         }
         GameObject go = PoolManager.Instance.Spawn(roadPrefab, pos, Quaternion.identity);
         go.transform.SetParent(transform);
