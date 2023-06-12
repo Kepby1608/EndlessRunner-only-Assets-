@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pause : MonoBehaviour
+public class Pause : Singleton<Pause>
 {
-    public GameObject panel;
-
     public void PauseGame()
     {
-        panel.SetActive(true);
+        PlayerController.Instance.musicSource.Pause();
         Time.timeScale = 0;
+    }
+
+    public void ContinueGame()
+    {
+        PlayerController.Instance.musicSource.UnPause();
+        Time.timeScale = 1f;
     }
 }

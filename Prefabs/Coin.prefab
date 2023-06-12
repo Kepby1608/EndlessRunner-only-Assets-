@@ -3190,3 +3190,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CC: {fileID: 0}
   coinSound: {fileID: 8300000, guid: ee532848b76d30b448553070b0ec7df3, type: 3}
+  canvas: {fileID: 7940876873454335271}

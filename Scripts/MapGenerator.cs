@@ -5,17 +5,17 @@ using UnityEngine;
 public class MapGenerator : Singleton<MapGenerator>
 {
     int itemSpace = 20;
-    int itemCountInMap = 5;
+    int itemCountInMap = 6;
     int coinsCountInItem = 7;
     int mapSize;
     int countMap = 1;
     float coinsHeight = 0.5f;
     public float laneOffset = 2.5f;
-    public int laneUpOffset = 2;
+    public int laneUpOffset = 4;
     public GameObject coinPrefab;
 
     int[] trackPos = new int[7];
-    int[] height = new int[3];
+    int[] height = new int[2] {0, 1};
     public GameObject[] prefabs;
 
     public List<GameObject> maps = new List<GameObject>();
@@ -47,27 +47,19 @@ public class MapGenerator : Singleton<MapGenerator>
             trackPos[i] = track;
             track++;
         }
-        for (int i = 0; i < height.Length; i++)
-        {
-            height[i] = i;
-        }
-        maps.Add(MakeMap3());
-        maps.Add(MakeMap3());
-        maps.Add(MakeMap3());
-        maps.Add(MakeMap3());
-        maps.Add(MakeMap3());
-        maps.Add(MakeMap3());
-        maps.Add(MakeMap3());
+        maps.Add(MakeMap());
+        maps.Add(MakeMap());
+        maps.Add(MakeMap());
+        maps.Add(MakeMap());
+        maps.Add(MakeMap());
+        maps.Add(MakeMap());
+        maps.Add(MakeMap());
+        maps.Add(MakeMap());
+        maps.Add(MakeMap());
         foreach (GameObject map in maps)
         {
             map.SetActive(false);
-        }
-        
-    }
-
-    void Start()
-    {
-
+        }   
     }
 
     void Update()
@@ -81,6 +73,7 @@ public class MapGenerator : Singleton<MapGenerator>
         if (activeMaps[0].transform.position.z < (-mapSize - 50))
         {
             RemoveFirstActiveMap();
+            
             AddActiveMap();
         }
     }
@@ -103,7 +96,7 @@ public class MapGenerator : Singleton<MapGenerator>
         }
         go.transform.position = activeMaps.Count > 0 ?
             activeMaps[activeMaps.Count - 1].transform.position + Vector3.forward * mapSize :
-            new Vector3(0, 0, 10);
+            new Vector3(0, 0, 20);
         maps.RemoveAt(r);
         activeMaps.Add(go);
     }
@@ -114,62 +107,105 @@ public class MapGenerator : Singleton<MapGenerator>
         {
             RemoveFirstActiveMap();
         }
+        // здесь for для слайдера
         AddActiveMap();
         AddActiveMap();
+        AddActiveMap();
+        //
     }
 
-    GameObject MakeMap3()
+    GameObject MakeMap()
     {
+        // Создание нового игрового объекта "Map" + счетчик карты
         GameObject result = new GameObject("Map" + countMap);
-        countMap++;
-        result.transform.SetParent(transform);
+        countMap++; // Увеличение счетчика карты
+        result.transform.SetParent(transform); // Установка родительского объекта для созданной карты
 
-        int randPref = Random.Range(0, prefabs.Length);
+        int randPref; // Генерация случайного индекса для выбора префаба из массива
 
-        GameObject go;
+        GameObject go; // Переменная для хранения инстанциируемого объекта
 
-        Vector3[] blockPos = new Vector3[7];
+        Vector3[] blockPos = new Vector3[7]; // Массив для хранения позиций блоков
+        
+        int coinsStyle = 0; // Стиль монет по умолчанию
+        int heightTemp = height[Random.Range(0, height.Length)];
+        bool flag = false;
+        int posTemp = 100;
 
-        for (int i = 0; i < itemCountInMap; i++)
+        for (int i = 0; i < itemCountInMap; i++) // Внешний цикл для создания объектов на карте
         {
-            int coinsStyle = 0;
-                for (int j = 0; j < 7; j++)
-                {
-                    blockPos[j] = new Vector3(trackPos[j] * laneOffset, height[Random.Range(0, height.Length)] * laneUpOffset, i * itemSpace);
-                    go = Instantiate(prefabs[randPref], blockPos[j], Quaternion.identity);
+            flag = false;
+            for (int j = 6; j >= 0; j--) // Внутренний цикл для создания блоков на каждой позиции
+            {
+                randPref = Random.Range(0, prefabs.Length); // Генерация нового случайного индекса для выбора следующего префаба
+                // Проверка тэга объекта префаба и выполнение соответствующих действий
 
-                // line
-                if (prefabs[randPref].gameObject.name == "BlockUp")
-                {
-                    coinsStyle = 0;
-                    CreateCoins(coinsStyle, blockPos[j], result);
-                }
-                // jump
-                else if (prefabs[randPref].gameObject.name == "BlockDown")
+                // Up
+                // Down
+                // UandD
+                // DandL
+                
+                if (prefabs[randPref].gameObject.tag == "Up") // Если тэг равен "BlockUp"
                 {
                     coinsStyle = 1;
-                    CreateCoins(coinsStyle, blockPos[j], result);
-
+                    heightTemp = 0;
                 }
-                // ramp
-                else if (prefabs[randPref].gameObject.name == "Ramp")
+                else if (prefabs[randPref].gameObject.tag == "Down")
                 {
-                    coinsStyle = 2;
+                    heightTemp = 1; 
+                    coinsStyle = 0;
+                }
+                else if (prefabs[randPref].gameObject.tag == "UandD")
+                {
+                    heightTemp = height[Random.Range(0, height.Length)];
+                    coinsStyle = 3;
+                }
+                else if (prefabs[randPref].gameObject.tag == "DandL")
+                {
+                    if (j >= 2 && !flag)
+                    {
+                        heightTemp = 0;
+                        coinsStyle = 3;
+                        flag = true;
+                        posTemp = j;
+                    }
+                    else 
+                    {
+                        continue;
+                    }
+                }
+
+                if (posTemp - j <= 2)
+                {
+                    heightTemp = 0;
+                }
+                else
+                {
+                    flag = false;
+                    posTemp = 100;
+                }
+
+                // Генерация позиции блока на основе случайных значений
+                blockPos[j] = new Vector3(trackPos[j] * laneOffset, heightTemp * laneUpOffset, i * itemSpace);
+                go = Instantiate(prefabs[randPref], blockPos[j], Quaternion.identity); // Инстанцирование объекта на позиции
+                go.transform.SetParent(result.transform); // Установка родительского объекта для созданного блока
+                if (coinsStyle != 3)
+                {
                     CreateCoins(coinsStyle, blockPos[j], result);
                 }
-
-                randPref = Random.Range(0, prefabs.Length);
-                go.transform.SetParent(result.transform);
-                
-                }
-
+                else continue;
+            }
         }
-        return result;
+
+        return result; // Возвращение созданной карты
     }
+
 
     void CreateCoins(int style, Vector3 pos, GameObject parentObject) 
     {
         Vector3 coinPos = Vector3.zero;
+
+        // line
         if (style == 0)
         {
             for (int i = -coinsCountInItem/2; i < coinsCountInItem/2; i++)
@@ -180,6 +216,7 @@ public class MapGenerator : Singleton<MapGenerator>
                 go.transform.SetParent(parentObject.transform);
             }
         }
+        // jump
         else if (style == 1) 
         {
             for (int i = -coinsCountInItem / 2; i < coinsCountInItem / 2; i++)
@@ -190,6 +227,7 @@ public class MapGenerator : Singleton<MapGenerator>
                 go.transform.SetParent(parentObject.transform);
             }
         }
+        // ramp
         else if (style == 2) 
         {
             for (int i = -coinsCountInItem / 2; i < coinsCountInItem / 2; i++)
@@ -200,5 +238,27 @@ public class MapGenerator : Singleton<MapGenerator>
                 go.transform.SetParent(parentObject.transform);
             }
         }
+        ////
+        //else if (style == 3)
+        //{
+        //    for (int i = -coinsCountInItem / 2; i < coinsCountInItem / 2; i++)
+        //    {
+        //        coinPos.y = Mathf.Min(Mathf.Max(0.7f * (i + 4), coinsHeight), 2.5f);
+        //        coinPos.z = i * ((float)itemSpace / coinsCountInItem);
+        //        GameObject go = Instantiate(coinPrefab, coinPos + pos, Quaternion.identity);
+        //        go.transform.SetParent(parentObject.transform);
+        //    }
+        //}
+        ////
+        //else if (style == 4)
+        //{
+        //    for (int i = -coinsCountInItem / 2; i < coinsCountInItem / 2; i++)
+        //    {
+        //        coinPos.y = Mathf.Min(Mathf.Max(0.7f * (i + 4), coinsHeight), 2.5f);
+        //        coinPos.z = i * ((float)itemSpace / coinsCountInItem);
+        //        GameObject go = Instantiate(coinPrefab, coinPos + pos, Quaternion.identity);
+        //        go.transform.SetParent(parentObject.transform);
+        //    }
+        //}
     }
 }

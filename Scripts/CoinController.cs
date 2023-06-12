@@ -5,13 +5,11 @@ using UnityEngine;
 public class CoinController : MonoBehaviour
 {
     float rotationSpeed = 100;
-    public CoinsCount CC;
     public AudioClip coinSound;
     // Start is called before the first frame update
     void Start()
     {
         rotationSpeed += Random.Range(0, rotationSpeed / 4.0f);
-        CC  = GameObject.Find("Canvas").GetComponent<CoinsCount>();
     }
 
     // Update is called once per frame
@@ -25,7 +23,7 @@ public class CoinController : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             transform.parent.gameObject.SetActive(false);
-            CC.countCoin++;
+            CoinsCount.Instance.countCoin++;
             AudioSource.PlayClipAtPoint(coinSound, transform.position);
         }
     }

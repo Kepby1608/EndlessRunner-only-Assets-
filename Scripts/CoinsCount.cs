@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class CoinsCount : Singleton<CoinsCount>
 {
-    public Text coinsCount;
+    public TextMeshProUGUI coinsCount;
     public int countCoin = 0;
     public int sumCountCoin;
 

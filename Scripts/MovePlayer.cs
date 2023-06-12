@@ -1,13 +1,5 @@
-
 using System;
 using UnityEngine;
-
-//[System.Serializable]
-//public class Boundary
-//{
-//    public float xMin, xMax, yMin, yMax;
-
-//}
 
 public class MovePlayer : MonoBehaviour
 {
@@ -22,7 +14,7 @@ public class MovePlayer : MonoBehaviour
 
     // accelerometr
     public float speed = 10;
-    public float speedAccelerometer = 1000;
+    public float speedAccelerometer = 500;
     Vector3 momentV;
     Vector3 dirV;
     Vector3 defV;
@@ -51,22 +43,6 @@ public class MovePlayer : MonoBehaviour
 
     void Update()
     {
-
-        //float moveHorizontal = Input.GetAxis("Horizontal");
-        //float moveVertical = Input.GetAxis("Vertical");
-
-        
-
-        //rb.velocity = new Vector3(moveHorizontal, moveVertical, 0) * Speed;
-
-        //rb.position = new Vector3(
-        //    Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax),
-        //    0.0f,
-        //    Mathf.Clamp(rb.position.y, boundary.yMin, boundary.yMax)
-        //    );
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved && isSensor) // sensor
         {
             touchPosition = Input.GetTouch(0).deltaPosition;
@@ -74,11 +50,6 @@ public class MovePlayer : MonoBehaviour
             rb.velocity = direction * moveSpeed;
 
             //rb.rotation = Quaternion.Euler(0f, 0f, Mathf.Clamp(rb.velocity.x * -tiltASide * 0.25f, -10, 10));
-
-            //float moveHorizontal = Input.GetAxis("Horizontal");
-            //float moveVertical = Input.GetAxis("Vertical");
-            //rb.velocity = new Vector3(moveHorizontal, moveVertical, 0) * Speed;
-
         }
         else if (!isSensor) // accelerometr
         {
@@ -107,8 +78,8 @@ public class MovePlayer : MonoBehaviour
 
             dirV *= Time.deltaTime;
             rb.velocity = dirV;
-            //rb.rotation = Quaternion.Euler(0f, 0f, rb.velocity.x * -tiltASide);
 
+            //rb.rotation = Quaternion.Euler(0f, 0f, rb.velocity.x * -tiltASide);
         }
         else
         {
