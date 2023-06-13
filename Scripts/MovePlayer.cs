@@ -124,15 +124,19 @@ public class MovePlayer : MonoBehaviour
     public void SensorOn()
     {
         if (!isSensor)
+        {
             isSensor = true;
+            PlayerController.Instance.fpv = false;
+        }
     }
-    
+
     public void SensorOff()
     {
         if (isSensor)
         {
             isSensor = false;
             AccelerometerOff();
+            PlayerController.Instance.fpv = true;
         }
     }
 }

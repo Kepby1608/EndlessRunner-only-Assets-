@@ -17,7 +17,7 @@ GameObject:
   m_TagString: Lose
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2941911084576081518
 Transform:
@@ -111,7 +111,7 @@ GameObject:
   m_TagString: Up
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2129202956288340755
 Transform:
@@ -148,7 +148,7 @@ GameObject:
   m_TagString: Lose
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &672795811466150536
 Transform:
@@ -294,6 +294,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: ddf1c0e167e930946a7c308f980ce0e0, type: 3}
       propertyPath: m_Name
       value: Forklift Truck
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ddf1c0e167e930946a7c308f980ce0e0, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddf1c0e167e930946a7c308f980ce0e0, type: 3}

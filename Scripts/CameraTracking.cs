@@ -25,6 +25,6 @@ public class CameraTracking : Singleton<CameraTracking>
 
     public void Die()
     {
-        transform.position = new Vector3(0, 3.5f, -9);
+        transform.position = new Vector3(0, Player.transform.position.y + posYOverPlayer, -8);
     }
 }

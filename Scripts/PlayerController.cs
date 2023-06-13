@@ -17,9 +17,13 @@ public class PlayerController : Singleton<PlayerController>
     int coinTemp = 0;
     int maxCoinTemp = 0;
     int tempScore;
+    int roundedScore;
+    float currentScore;
+    float speed;
     //float laneOffset;
     public bool flagDie = false;
     public bool unTouchible = false;
+    public bool fpv = false;
     //public float jumpPower = 15;
     //public float jumpForce;
     //public float jumpGravity = -40f;
@@ -39,12 +43,14 @@ public class PlayerController : Singleton<PlayerController>
     public TextMeshProUGUI moneyText;
     public Canvas losePanel;
     public Canvas preLosePanel;
+    public Button pauseButton;
     public Button buttonShowAd;
     //public UnityEngine.UI.Button pauseButton;
 
     //public AudioClip jumpClip;
-    public AudioClip musicLose;
-    public AudioSource musicSource;
+    //public AudioClip musicLose;
+    //public AudioSource musicSource;
+    public AudioSource musicLosee;
 
     Rigidbody rb;
 
@@ -57,16 +63,18 @@ public class PlayerController : Singleton<PlayerController>
     void Start()
     {
         Physics.gravity = new Vector3(0, 0, 0); 
-        rb = GetComponent<Rigidbody>(); 
-        musicSource = GetComponent<AudioSource>();
+        rb = GetComponent<Rigidbody>();
+        //musicSource = GetComponent<AudioSource>();
+        musicLosee = GetComponent<AudioSource>();
         ResetGame();
         moneyText.text = "Money: " + PlayerPrefs.GetInt("money");
-        unTouchible = false;
+        unTouchible = false; 
+        fpv = false;
     }
 
     public void StartLevel()
     {
-        musicSource.Play();
+        //musicSource.Play();
         RoadGenerator.Instance.StartLevel();
         RewardedAds.Instance.LoadAd();
         flagDie = false;
@@ -86,12 +94,15 @@ public class PlayerController : Singleton<PlayerController>
 
     public void ResetGame()
     {
-        CoinCalculate();
-        moneyText.text = "Money: " + PlayerPrefs.GetInt("money");
-        scoreTextInMenu.text = "Max Score: " + PlayerPrefs.GetInt("score");
         tempScore = 0;
         rb.velocity = Vector3.zero;
         transform.position = new Vector3(0, 0.5f, -2);
+        roundedScore = 0;
+        currentScore = 0;
+        speed = 0;
+        CoinCalculate();
+        moneyText.text = "Money: " + PlayerPrefs.GetInt("money");
+        scoreTextInMenu.text = "Max Score: " + PlayerPrefs.GetInt("score");
         RoadGenerator.Instance.ResetLevel();
     }
 
@@ -119,7 +130,6 @@ public class PlayerController : Singleton<PlayerController>
 
         PlayerPrefs.DeleteKey("score");
     }
-
     private void FixedUpdate()
     {
         if (unTouchible) {
@@ -131,22 +141,33 @@ public class PlayerController : Singleton<PlayerController>
 
         if (MovePlayer.instance.enabled)
         {
-            tempScore++;
+            if (fpv)
+            {
+                tempScore += 2;
+            }
+            else
+            {
+                tempScore++;
+            }
+
+            
+            currentScore = tempScore * 0.1f;
 
             // Рассчитываем текущий score и speed
-            float currentScore = tempScore * 0.1f;
-            int roundedScore = Mathf.RoundToInt(currentScore);
-            float speed = 10.1f + (roundedScore - 1) * 0.1f;
+            
+            roundedScore = Mathf.RoundToInt(currentScore);
+            speed = 10.1f + (roundedScore - 1) * 0.1f;
 
             // Проверяем, изменился ли score и speed
             if (roundedScore != score)
             {
                 score = roundedScore;
+                
                 RoadGenerator.Instance.speed = speed;
+                
                 scoreTextInGame.text = "Score: " + score.ToString();
             }
         }
-
     }
 
     // соприкосновения и реакции на это
@@ -155,13 +176,14 @@ public class PlayerController : Singleton<PlayerController>
         if (other.gameObject.tag == "Lose")
         {
             Trig();
+
             if (!flagDie)
             {
                 preLosePanel.gameObject.SetActive(true);
             }
             else
             {
-                musicSource.Stop();
+                //musicSource.Stop();
                 losePanel.gameObject.SetActive(true);
                 ScoreCalculate();
             }
@@ -170,8 +192,10 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Trig()
     {
-        AudioSource.PlayClipAtPoint(musicLose, transform.position);
+        //AudioSource.PlayClipAtPoint(musicLose, transform.position);
+        musicLosee.Play();
         Pause.Instance.PauseGame();
+        pauseButton.gameObject.SetActive(false);
     }
 
     public void Die()

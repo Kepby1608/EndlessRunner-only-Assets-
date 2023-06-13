@@ -85,6 +85,7 @@ public class RewardedAds : Singleton<RewardedAds>, IUnityAdsLoadListener, IUnity
             StartCoroutine(BlinkPlayerForSeconds(3f, 0.5f));
             StartCoroutine(DisableColliderForSeconds(3f));
             flag = false;
+            PlayerController.Instance.pauseButton.gameObject.SetActive(true);
         }
     }
 

@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5914557194899490991
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5914557194899490988}
-  m_Layer: 0
-  m_Name: BoltSpawn
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5914557194899490988
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5914557194899490991}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.16}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2695619731825660670}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2695619731826051198
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -285,26 +254,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc5a46ff007e38f4f83401a67c837e92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpPower: 15
-  jumpForce: 0
-  jumpGravity: -40
-  realGravity: -9.81
-  forceValue: 0
-  laneChangeSpeed: 15
-  distanceRay: 0.76
-  tryJump: 0
-  isMoving: 0
-  isMovingVertical: 0
-  isJumping: 0
+  flagDie: 0
+  unTouchible: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 0
-  scoreText: {fileID: 0}
+  scoreTextInGame: {fileID: 0}
+  scoreTextInMenu: {fileID: 0}
   maxScore: {fileID: 0}
+  moneyText: {fileID: 0}
   losePanel: {fileID: 0}
-  pauseButton: {fileID: 0}
-  jumpClip: {fileID: 0}
+  preLosePanel: {fileID: 0}
+  buttonShowAd: {fileID: 0}
   musicLose: {fileID: 0}
+  musicSource: {fileID: 0}
 --- !u!1001 &2695619733037887575
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -316,9 +279,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: engines_player
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 62ea8a5ca94c546f29ba6dea8f379a7b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 100006, guid: 62ea8a5ca94c546f29ba6dea8f379a7b, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 62ea8a5ca94c546f29ba6dea8f379a7b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.127
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 62ea8a5ca94c546f29ba6dea8f379a7b, type: 3}
       propertyPath: m_RootOrder
