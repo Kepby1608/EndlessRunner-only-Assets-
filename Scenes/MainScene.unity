@@ -2786,9 +2786,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'infinity
+  m_text: 'Galactic
 
-    space'
+    Escape'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 6522f30e342599e4e9dd4cc2cc03c830, type: 2}
@@ -3281,7 +3281,7 @@ PrefabInstance:
     - target: {fileID: 3962020322121531258, guid: e3c36de1655378546b7ae47dc5655efc, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 7b040e94546762347ba69675fa6184b3, type: 3}
+      objectReference: {fileID: 8300000, guid: a1af5ff0b2f6c6048aacf0b49a614000, type: 3}
     - target: {fileID: 3962020322121531258, guid: e3c36de1655378546b7ae47dc5655efc, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0
